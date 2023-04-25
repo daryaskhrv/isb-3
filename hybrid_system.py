@@ -29,6 +29,7 @@ if __name__ == "__main__":
         elif args.encryption:
             print("второй")
             print(settings)
+            text_encryption(settings['secret_key'],settings['symmetric_key'],settings['initial_file'],settings['encrypted_file'])
         else:
             print("третий")
     

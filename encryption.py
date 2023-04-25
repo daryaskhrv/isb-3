@@ -1,8 +1,8 @@
 import os
 
+from cryptography.hazmat.primitives import padding as sym_padding
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from cryptography.hazmat.primitives import padding
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
 
@@ -42,9 +42,9 @@ def text_encryption(private_key_path,symmetric_key_path,initial_text_path, encry
     text = ""
     with open(initial_text_path, 'r', encoding='utf-8') as f:
         text = f.read()
-    padder = padding.ANSIX923(1024).padder()
+    padder = sym_padding.PKCS7(128).padder()
     padded_text = padder.update(bytes(text, 'utf-8')) + padder.finalize()
-    iv = os.urandom(8)
+    iv = os.urandom(16)
     cipher = Cipher(algorithms.SM4(key), modes.CBC(iv))
     encryptor = cipher.encryptor()
     c_text = encryptor.update(padded_text) + encryptor.finalize()

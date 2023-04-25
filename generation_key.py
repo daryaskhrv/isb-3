@@ -24,8 +24,8 @@ def generation_asymmetric_keys(private_key_path: str,  public_key_path: str) -> 
     Записывает по указанным путям в файлы сгенерированные асимметричные открытый и закрытый ключи.
     Parameters
     ----------
-    private_key_path (str):  путь до закрытого ключа
-    public_key_path (str):  путь до открытого ключа
+        private_key_path (str):  путь до закрытого ключа
+        public_key_path (str):  путь до открытого ключа
     """
     keys = rsa.generate_private_key(public_exponent=65537,key_size=2048)
     private_key = keys
@@ -36,7 +36,7 @@ def generation_asymmetric_keys(private_key_path: str,  public_key_path: str) -> 
                                                  format=serialization.PublicFormat.SubjectPublicKeyInfo))
         logging.info(f'Открытый ключ успешно сгенерирован и записан в файл {public_key_path}')
     except OSError as err:
-        logging.warning(f'{err} - ошибка при записи в файл {public_key_path}')
+        logging.warning(f'{err} ошибка при записи в файл {public_key_path}')
     try:
         with open(private_key_path, 'wb') as private_out:
             private_out.write(private_key.private_bytes(encoding=serialization.Encoding.PEM,
@@ -44,23 +44,23 @@ def generation_asymmetric_keys(private_key_path: str,  public_key_path: str) -> 
                                                     encryption_algorithm=serialization.NoEncryption()))
             logging.info(f'Закрытый ключ успешно сгенерирован и записан в файл {private_key_path}')
     except OSError as err:
-        logging.warning(f'{err} - ошибка при записи в файл {private_key_path}')
+        logging.warning(f'{err} ошибка при записи в файл {private_key_path}')
 
 
 def symmetric_key_encryption(public_key_path: str, symmetric_key_path: str) -> None:
     """
-     Считывает из файла сгенерированный открытый ключ, шифрует его и
-     записывает по указанному пути в файл зашифрованный симметричный ключ.
+    Считывает из файла сгенерированный открытый ключ, шифрует его и
+    записывает по указанному пути зашифрованный симметричный ключ.
     Parameters
     ----------
-    public_key_path (str):  путь до открытого ключа
-    symmetric_key_path (str): путь до симметричного ключа
+        public_key_path (str):  путь до открытого ключа
+        symmetric_key_path (str): путь до симметричного ключа
     """
     try:
         with open(public_key_path, "rb") as pem_in:
             public_bytes = pem_in.read()
     except OSError as err:
-        logging.warning(f'{err} - ошибка при чтении из файла {public_key_path}')
+        logging.warning(f'{err} ошибка при чтении из файла {public_key_path}')
     d_public_key = load_pem_public_key(public_bytes)
     key = generation_symmetric_key()
     c_key = d_public_key.encrypt(key,
@@ -71,4 +71,4 @@ def symmetric_key_encryption(public_key_path: str, symmetric_key_path: str) -> N
             f.write(c_key)
             logging.info(f'Симметричный ключ успешно сгенерирован и записан в файл {symmetric_key_path}')
     except OSError as err:
-        logging.warning(f'{err} - ошибка при записи в файл {symmetric_key_path}')
+        logging.warning(f'{err} ошибка при записи в файл {symmetric_key_path}')

@@ -1,11 +1,6 @@
-import argparse
 import json
-import logging
-import os
 
-
-
-SETTINGS= {
+settings = {
     'initial_file':'files/initial_file.txt',
     'encrypted_file': 'files/encrypted_file.txt',
     'decrypted_file': 'files/decrypted_file.txt',
@@ -14,4 +9,6 @@ SETTINGS= {
     'secret_key': 'files/secret_key.pem'
 }
 
-
+if __name__ == "__main__":
+    with open('settings.json', 'w') as fp:
+        json.dump(settings, fp)

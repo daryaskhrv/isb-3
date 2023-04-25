@@ -3,6 +3,10 @@ import json
 import logging
 import os
 
+from generation_key import generation_asymmetric_keys,symmetric_key_encryption
+from encryption import text_encryption
+
+
 SETTINGS_FILE = 'settings.json'
 
 if __name__ == "__main__":
@@ -18,6 +22,10 @@ if __name__ == "__main__":
     if settings:
         if args.generation:
             print("первый")
+            print(settings)
+            print(settings['secret_key'],settings['public_key'],settings['symmetric_key'])
+            generation_asymmetric_keys(settings['secret_key'],settings['public_key'])
+            symmetric_key_encryption(settings['public_key'],settings['symmetric_key'])
         elif args.encryption:
             print("второй")
             print(settings)

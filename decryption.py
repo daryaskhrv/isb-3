@@ -37,8 +37,8 @@ def text_decryption(private_key_path: str,symmetric_key_path: str,encrypt_file_p
     unpadder = sym_padding.ANSIX923(128).unpadder()
     unpadded_dc_text = unpadder.update(dc_text) + unpadder.finalize()
     try:
-        with open(decrypt_file_path, 'w') as f:
-            f.write(unpadded_dc_text.decode("UTF_8"))
+        with open(decrypt_file_path, 'wb') as f:
+            f.write(unpadded_dc_text)
         logging.info(f'Текст расшифрован и записан в файл')
     except OSError as err:
         logging.warning(f'{err} ошибка записи в файл {decrypt_file_path}')

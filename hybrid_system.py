@@ -18,7 +18,7 @@ if __name__ == "__main__":
     try:
         with open(SETTINGS_FILE) as json_file:
             settings = json.load(json_file)
-        logging.info(f'Параметры успешно прочитаны')
+        logging.info('Параметры успешно прочитаны')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {SETTINGS_FILE}')
     if settings:
@@ -29,9 +29,3 @@ if __name__ == "__main__":
             text_encryption(settings['secret_key'],settings['symmetric_key'],settings['initial_file'],settings['encrypted_file'],settings['iv_key'])
         else:
             text_decryption(settings['secret_key'],settings['symmetric_key'],settings['encrypted_file'],settings['decrypted_file'],settings['iv_key'])
-
-    
-
-
-
-

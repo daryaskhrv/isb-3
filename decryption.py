@@ -22,13 +22,13 @@ def text_decryption(private_key_path: str,symmetric_key_path: str,encrypt_file_p
     try:
         with open(encrypt_file_path, 'rb') as f:
             en_text = f.read()
-        logging.info(f'Зашифрованный текст прочитан')
+        logging.info('Зашифрованный текст прочитан')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {encrypt_file_path}')
     try:
         with open(iv_path, "rb") as f:
             iv = f.read()
-        logging.info(f'Ключ для дешифрации прочитан')
+        logging.info('Ключ для дешифрации прочитан')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {iv_path}')
     cipher = Cipher(algorithms.SM4(key), modes.CBC(iv))
@@ -39,6 +39,6 @@ def text_decryption(private_key_path: str,symmetric_key_path: str,encrypt_file_p
     try:
         with open(decrypt_file_path, 'wb') as f:
             f.write(unpadded_dc_text)
-        logging.info(f'Текст расшифрован и записан в файл')
+        logging.info('Текст расшифрован и записан в файл')
     except OSError as err:
         logging.warning(f'{err} ошибка записи в файл {decrypt_file_path}')

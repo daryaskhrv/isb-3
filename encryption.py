@@ -24,13 +24,13 @@ def decryption_of_symmetric_key(private_key_path: str,symmetric_key_path: str)->
     try:
         with open(symmetric_key_path, mode="rb") as f:
             en_key = f.read()
-        logging.info(f'Симметричный ключ успешно прочитан')
+        logging.info('Симметричный ключ успешно прочитан')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {symmetric_key_path}')
     try:
         with open(private_key_path, 'rb') as pem_in:
             private_key = pem_in.read()
-        logging.info(f'Закрытый ключ успешно прочитан')
+        logging.info('Закрытый ключ успешно прочитан')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {private_key_path}')
     d_private_key = load_pem_private_key(private_key, password=None)
@@ -55,7 +55,7 @@ def text_encryption(private_key_path: str,symmetric_key_path: str,initial_text_p
     try:
         with open(initial_text_path, 'r', encoding='utf-8') as f:
             text = f.read()
-        logging.info(f'Исходный текст прочитан')
+        logging.info('Исходный текст прочитан')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {initial_text_path}')
     padder = sym_padding.ANSIX923(128).padder()
@@ -64,7 +64,7 @@ def text_encryption(private_key_path: str,symmetric_key_path: str,initial_text_p
     try:
         with open(iv_path, 'wb') as key_file:
             key_file.write(iv)
-        logging.info(f'Ключ для шифрования текста прочитан')
+        logging.info('Ключ для шифрования текста прочитан')
     except OSError as err:
         logging.warning(f'{err} ошибка чтении из файла {iv_path}')
     cipher = Cipher(algorithms.SM4(key), modes.CBC(iv))
@@ -73,6 +73,6 @@ def text_encryption(private_key_path: str,symmetric_key_path: str,initial_text_p
     try:
         with open(encrypt_text_path, 'wb') as f_text:
             f_text.write(c_text)
-        logging.info(f'Текст зашифрован и записан в файл')
+        logging.info('Текст зашифрован и записан в файл')
     except OSError as err:
         logging.warning(f'{err} ошибка записи в файл{encrypt_text_path}')

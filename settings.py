@@ -1,3 +1,4 @@
+import logging
 import json
 
 settings = {
@@ -10,6 +11,40 @@ settings = {
     'iv_key':'files/iv.bin'
 }
 
+def load_settings(settings_file: str) -> dict:
+    """
+    Считывает из файла параметры.
+    Parameters
+    ----------
+        settings_file (str):  путь до файла с параметрами
+    Returns
+    --------
+        settings (dict): параметры
+    """
+    settings = None
+    try:
+        with open(settings_file) as json_file:
+            settings = json.load(json_file)
+        logging.info('Настройки успешно считаны')
+    except OSError as err:
+        logging.warning(f'{err} ошибка при чтении из файла {settings_file}')
+    return settings
+
+def record_settings(settings_file: str, settings: dict) -> None:
+    """
+    Записывает в файл параметры.
+    Parameters
+    ----------
+        settings_file (str):  путь до файла с параметрами
+        settings (dict): параметры
+    """
+    try:
+        with open(settings_file, 'w') as fp:
+            json.dump(settings, fp)
+        logging.info('Настройки успешно записаны')
+    except OSError as err:
+        logging.warning(f'{err} ошибка при записи в файл {settings_file}')
+
+
 if __name__ == "__main__":
-    with open('settings.json', 'w') as fp:
-        json.dump(settings, fp)
+    record_settings('settings.json',settings)

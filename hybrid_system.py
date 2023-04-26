@@ -1,26 +1,25 @@
 import argparse
-import json
-import logging
 
 from generation_key import generation_asymmetric_keys,symmetric_key_encryption
 from encryption import text_encryption
 from decryption import text_decryption
+from settings import load_settings
 
 SETTINGS_FILE = 'settings.json'
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
+    parser.add_argument('-set', '--settings', type=str,
+                        help='Использовать собственный файл с настройками (Указать путь к файлу)')
     group = parser.add_mutually_exclusive_group(required = True)
     group.add_argument('-gen','--generation',help='Запускает режим генерации ключей')
     group.add_argument('-enc','--encryption',help='Запускает режим шифрования')
     group.add_argument('-dec','--decryption',help='Запускает режим дешифрования')
     args = parser.parse_args()
-    try:
-        with open(SETTINGS_FILE) as json_file:
-            settings = json.load(json_file)
-        logging.info('Параметры успешно прочитаны')
-    except OSError as err:
-        logging.warning(f'{err} ошибка чтении из файла {SETTINGS_FILE}')
+    if args.settings:
+        settings = load_settings(args.settings)
+    else:
+        settings = load_settings(SETTINGS_FILE)
     if settings:
         if args.generation:
             generation_asymmetric_keys(settings['secret_key'],settings['public_key'])

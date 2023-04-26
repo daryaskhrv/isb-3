@@ -30,6 +30,7 @@ def load_settings(settings_file: str) -> dict:
         logging.warning(f'{err} ошибка при чтении из файла {settings_file}')
     return settings
 
+
 def record_settings(settings_file: str, settings: dict) -> None:
     """
     Записывает в файл параметры.

@@ -6,7 +6,7 @@ from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
 
-def decryption_of_symmetric_key(private_key_path,symmetric_key_path)-> bytes:
+def decryption_of_symmetric_key(private_key_path: str,symmetric_key_path: str)-> bytes:
     """
     Считывает из файла зашифрованный симметричный ключ и дешифрует его
     Parameters
@@ -28,7 +28,7 @@ def decryption_of_symmetric_key(private_key_path,symmetric_key_path)-> bytes:
     return dc_key  
 
 
-def text_encryption(private_key_path,symmetric_key_path,initial_text_path, encrypt_text_path) -> None:
+def text_encryption(private_key_path: str,symmetric_key_path: str,initial_text_path: str, encrypt_text_path: str) -> None:
     """
     Считывает текст из файла, шифрует его и сохраняет результат в файл по указанному пути
     Parameters
@@ -42,9 +42,11 @@ def text_encryption(private_key_path,symmetric_key_path,initial_text_path, encry
     text = ""
     with open(initial_text_path, 'r', encoding='utf-8') as f:
         text = f.read()
-    padder = sym_padding.PKCS7(128).padder()
+    padder = sym_padding.ANSIX923(128).padder()#sym_padding.PKCS7(128).padder()
     padded_text = padder.update(bytes(text, 'utf-8')) + padder.finalize()
     iv = os.urandom(16)
+    with open("iv.bin", 'wb') as key_file:
+        key_file.write(iv)
     cipher = Cipher(algorithms.SM4(key), modes.CBC(iv))
     encryptor = cipher.encryptor()
     c_text = encryptor.update(padded_text) + encryptor.finalize()

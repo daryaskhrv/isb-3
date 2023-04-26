@@ -6,7 +6,8 @@ settings = {
     'decrypted_file': 'files/decrypted_file.txt',
     'symmetric_key': 'files/symmetric_key.txt',
     'public_key': 'files/public_key.pem',
-    'secret_key': 'files/secret_key.pem'
+    'secret_key': 'files/secret_key.pem',
+    'iv_key':'files/iv.bin'
 }
 
 if __name__ == "__main__":
